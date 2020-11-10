@@ -1,17 +1,25 @@
-BIMData viewer SDK
-==================
+# BIMData viewer SDK
 
 This repo is a pre-configured environment to develop BIMData Viewer plugins.
 You can develop, test, build, package and share your plugin easily.
 
 ## Setup
+
 First, you must create a BIMData Application (see https://developers.bimdata.io/tutorials/dev_create_an_application.html)
 The SDK needs at least `cloud:read` and `ifc:read` scopes.
 The default BCF Plugin needs `bcf:read` and `bcf:write` scopes, plus you can add any scope you need for your plugin.
 
-The redirect URI is by default http://localhost:8080/oidc-callback
+Set _Base URL_ to http://localhost:8080 and _Redirect URIs_ to http://localhost:8080/oidc-callback. If you want, you can change the redict URL in `src/config/oidc.js`.
+
+Set _Access Type_ to public.
+
+Set _Implicit flow enabled_ to False.
+
+Your app setup should look something like this:
+![Example app setup](https://github.com/kerkkoh/bimdata-viewer-sdk/blob/master/example-appsetup.png?raw=true "Example app setup")
 
 Then you can copy the `.env.example` file and add your `client_id`:
+
 ```
 npm install
 cp .env.example .env
@@ -20,11 +28,13 @@ cp .env.example .env
 Edit `.env` file with your data (your `client_id`)
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Usage
+
 When going on http://localhost:8080, a simple interface will parse your projects and models and let you open the one you want.
 You can directly open one by opening an URL using specific Ids: http://localhost:8080/viewer?cloudId=391&projectId=634&ifcId=1491
 
@@ -54,6 +64,14 @@ mounted() {
 ...
 ```
 
+## Help
+
+You can find the 3D viewer refernece at https://developers.bimdata.io/viewer/index.html and most of the relevant documentation by following links under it. Especially the links under "Extend the 3D Viewer" are relevant. Here are a few interesting pages for interacting with the viewer from your plugin:
+
+- https://developers.bimdata.io/viewer/utils.html
+- https://developers.bimdata.io/viewer/events.html
+- https://developers.bimdata.io/viewer/modal_manager.html
+
 ## Package your plugin
 
 To load your plugin in a real environment, you want to package and publish your plugin.
@@ -72,15 +90,18 @@ To publish it, update the `package.json` file with the proper information and ju
 
 The code is minified to protect your code as much as possible.
 
-
 ### More info about how it works
-The SDK itself uses *Webpack* to build. The packaging uses *Rollup*. If you need a complex JS flow, it may lead to some issues.
+
+The SDK itself uses _Webpack_ to build. The packaging uses _Rollup_. If you need a complex JS flow, it may lead to some issues.
 To see these issues before deploying, load the packaged version in the SDK:
+
 ```bash
 cd src/plugins/{your_plugin}
 npm run watch
 ```
+
 And load the dist version of the plugin:
+
 ```js
 import SplitPlugin from "@/plugins/split/dist/split.plugin.js";
 
